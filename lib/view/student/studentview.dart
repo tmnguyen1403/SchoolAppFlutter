@@ -6,6 +6,8 @@ import 'studentenrollment.dart';
 import 'studentfinance.dart';
 import 'studentinfo.dart';
 
+import '../rowspacing.dart';
+
 //Model
 import '../../model/student.dart';
 
@@ -16,15 +18,7 @@ class StudentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-     Row(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: <Widget>[
-         Spacer(flex:4),
-         Expanded(
-           flex: 2,
-           child: 
-        ElevatedButton(
+    final ElevatedButton buttonContent =  ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.blue.shade300,
             
@@ -38,9 +32,8 @@ class StudentView extends StatelessWidget {
             ) 
           }, 
           child: Text(student.email)
-        )),
-        Spacer(flex: 4),
-    ],);
+        );
+    return RowSpacing(contentWidget: buttonContent);
   }
 }
 

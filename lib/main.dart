@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:schoolapp/view/rowspacing.dart';
 
-import 'Model/student.dart';
 import 'view/student/studentrole.dart';
-
+import 'view/instructor/instructorrole.dart';
 //Client - send request to server 
 //Server - receive and process the request
 
@@ -25,6 +25,7 @@ class _UIState extends State<UI> {
         '/': (context) => Login(),
         '/admin': (context) => Admin(),
         '/student': (context) => StudentRole(),
+        '/instructor': (context) => InstructorRole(),
       },
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -46,18 +47,7 @@ class _UIState extends State<UI> {
   }
 }
 
-class StudentButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.pushNamed(context, '/student');
-        print("I pressed student");
-      }, 
-      child: Text('Student'),
-    );
-  }
-}
+
 
 class Login extends StatelessWidget {
   @override
@@ -75,27 +65,63 @@ class Login extends StatelessWidget {
 class Role extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
+    return Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+      Divider(),           
       Admin(),
+      Divider(),
       Dean(),
-      Instructor(),
-      Text("Advisor"),
+      Divider(),
+      InstructorButton(),
+      Divider(),
       StudentButton(),
-    ],);
+      Spacer(flex: 2),
+    ],));
   }
 }
 
+class InstructorButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ElevatedButton contentButton = ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/instructor');
+        print("I pressed instructor");
+      }, 
+      child: Text('Instructor'),
+    );
+    return RowSpacing(contentWidget: contentButton);
+  }
+}
+
+class StudentButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ElevatedButton contentButton = ElevatedButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/student');
+          print("I pressed student");
+        }, 
+        child: Text('Student'),
+        );
+    return RowSpacing(contentWidget: contentButton);
+  }
+}
 //Admin
 class Admin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    ElevatedButton contentButton = ElevatedButton(
       onPressed: () {
         Navigator.pushNamed(context, '/admin');
         print("I pressed you");
       }, 
       child: Text('Admin'),
     );
+    return RowSpacing(contentWidget: contentButton);
   }
 }
 
@@ -103,68 +129,10 @@ class Admin extends StatelessWidget {
 class Dean extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    ElevatedButton contentButton =  ElevatedButton(
       onPressed: () {print("I pressed you");}, 
       child: Text('Dean'),
     );
-  }
-}
-
-//Instructor
-class Instructor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {print("I pressed you");}, 
-      child: Text('Instructor'),
-    );
-  }
-}
-
-class MyApp extends StatefulWidget {
-  //MyApp({required Key key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Future<Student> futureStudent;
-
-  @override
-  void initState() {
-    super.initState();
-    //futureAlbum = fetchAlbum();
-    //futureStudent = fetchStudent();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Fetch Data Example'),
-        ),
-        body: Center(
-          child: FutureBuilder<Student>(
-            future: futureStudent,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!.firstName);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
-    );
+     return RowSpacing(contentWidget: contentButton);
   }
 }
