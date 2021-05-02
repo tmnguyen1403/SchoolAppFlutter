@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:schoolapp/view/student/studentview.dart';
 
-import '../../Model/student.dart';
+import '../../model/student.dart';
 import 'package:http/http.dart' as http;
 import '../../api.dart' as api;
 
@@ -47,15 +47,31 @@ class _StudentRoleState extends State<StudentRole> {
 
   @override build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
+      appBar: AppBar(
+        title: Text("Student Login"),
+      ),
+      body: Container(
+        alignment: Alignment.center,
         child: FutureBuilder<List<Student>> (
           future: students,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<StudentView> view = snapshot.data!.map((student) => StudentView(student: student)).toList();
+              dynamic data = snapshot.data!;
 
-              return Column(children: view,);
+              return Container(
+                alignment: Alignment.center,
+                child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemBuilder: (BuildContext context, int index) {
+                  return StudentView(student: data[index],);
+                }, 
+                separatorBuilder: (BuildContext context, int index) => const Divider(), 
+                itemCount: data.length
+              ));
+              // return ListView(
+              //   padding: const EdgeInsets.all(8),
+              //   children: views,);
+             
             } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
             }

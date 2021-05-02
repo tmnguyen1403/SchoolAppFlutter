@@ -1,11 +1,14 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:schoolapp/view/student/studentfinance.dart';
-import '../../Model/student.dart';
-import '../rowinfo.dart';
+
+//TabViews
 import 'studentenrollment.dart';
 import 'studentfinance.dart';
+import 'studentinfo.dart';
+
+//Model
+import '../../model/student.dart';
+
 
 class StudentView extends StatelessWidget {
   final Student student;
@@ -13,41 +16,33 @@ class StudentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      ElevatedButton(
-        onPressed: () => {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => StudentNavigation(student: student,), 
+    return
+     Row(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: <Widget>[
+         Spacer(flex:4),
+         Expanded(
+           flex: 2,
+           child: 
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blue.shade300,
+            
+          ),
+          onPressed: () => {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => StudentNavigation(student: student,), 
+              ) 
             ) 
-          ) 
-        }, 
-        child: Text(student.email)
-      )
+          }, 
+          child: Text(student.email)
+        )),
+        Spacer(flex: 4),
     ],);
   }
 }
-
-
-
-class StudentInfo extends StatelessWidget {
-  final Student student;
-  StudentInfo({required this.student});
-  @override
-  Widget build(BuildContext context) {
-    final String dob = student.dob.substring(0, 10);
-    return Column(children: <Widget>[
-        RowInfo(label: "ID", content: student.id.toString(),),
-        RowInfo(label: "email", content: student.email),
-        RowInfo(label: "firstName", content: student.firstName,),
-        RowInfo(label: "lastName", content: student.lastName,),
-        RowInfo(label: "sex", content: student.sex),
-        RowInfo(label: "dob", content: dob),
-      ]);
-  }
-}
-
 
 
 class StudentNavigation extends StatefulWidget {
@@ -86,7 +81,7 @@ class _StudentNavigationState extends State<StudentNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.quick_contacts_mail_outlined),
             label: 'Student Info'
             ),
           BottomNavigationBarItem(
@@ -94,7 +89,7 @@ class _StudentNavigationState extends State<StudentNavigation> {
             label: 'Course Enrolled'
           ),
            BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: Icon(Icons.account_balance),
             label: 'Finance'
           ),
         ],

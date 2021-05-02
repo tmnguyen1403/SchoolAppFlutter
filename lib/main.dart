@@ -1,12 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:html';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-import 'view/student/studentview.dart';
 import 'Model/student.dart';
 import 'view/student/studentrole.dart';
 
@@ -64,16 +59,13 @@ class StudentButton extends StatelessWidget {
   }
 }
 
-
-
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('School System'),
+        title: Text('School DBMS'),
         centerTitle: true,
-        backgroundColor: Colors.amber,
       ),
       body: Role(),
     );
@@ -128,26 +120,7 @@ class Instructor extends StatelessWidget {
     );
   }
 }
-// class Admin extends StatefulWidget {
-//   //MyApp({required Key key}) : super(key: key);
 
-//   @override
-//   _AdminState createState() => _AdminState();
-// }
-
-// class _AdminState extends State<Admin> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(children: <Widget>[
-//       Text("Admin"),
-//       Text("Dean"),
-//       Text("Instructor"),
-//       Text("Advisor"),
-//       Text("Student"),
-//     ],);
-//   }
-// }
-//
 class MyApp extends StatefulWidget {
   //MyApp({required Key key}) : super(key: key);
 
@@ -195,53 +168,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-class StudentList extends StatefulWidget {
-  //MyApp({required Key key}) : super(key: key);
-
-  @override
-  _StudentListState createState() => _StudentListState();
-}
-
-class _StudentListState extends State<StudentList> {
-  late Future<Student> futureStudent;
-
-  @override
-  void initState() {
-    super.initState();
-    //futureStudent = fetchStudent();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Fetch Data Example'),
-        ),
-        body: Center(
-          child: FutureBuilder<Student>(
-            future: futureStudent,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!.firstName);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Future.Delayed
-// Column <Studetn>
