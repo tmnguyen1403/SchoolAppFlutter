@@ -6,9 +6,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'studentview.dart';
+import 'view/student/studentview.dart';
 import 'Model/student.dart';
-import 'studentrole.dart';
+import 'view/student/studentrole.dart';
 
 //Client - send request to server 
 //Server - receive and process the request

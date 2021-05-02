@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:schoolapp/studentview.dart';
+import 'package:schoolapp/view/student/studentview.dart';
 
-import 'Model/student.dart';
+import '../../Model/student.dart';
 import 'package:http/http.dart' as http;
+import '../../api.dart' as api;
 
 
 class StudentRole extends StatefulWidget {
@@ -20,7 +21,7 @@ class _StudentRoleState extends State<StudentRole> {
 
   Future<List<Student>> fetchStudent() async {
     final response =
-        await http.get(Uri.http('localhost:3003', ''));
+        await http.get(api.getAllStudentsUri());
         //await http.get(Uri.https('localhost.com:3303', '/'));
 
     if (response.statusCode == 200) {
