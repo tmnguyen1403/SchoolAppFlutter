@@ -1,61 +1,44 @@
 import 'package:flutter/material.dart';
 
-import '../../Model/studentcourse.dart';
+import '../../model/finance.dart';
 import '../../api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-//import 'rowinfo.dart';
 
-// class StudentEnrollment extends StatefulWidget {
-//   @override
-//   _StudentEnrollmentState createState() => _StudentEnrollmentState();
-// }
 
-// class _StudentEnrollmentState extends State<StudentEnrollment> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget buid(BuildContext contex) {
-//     return Text("hello");
-//   }
-// }
-
-class StudentEnrollment extends StatefulWidget {
+class StudentFinance extends StatefulWidget {
   //MyApp({required Key key}) : super(key: key);
   final int studentId;
-  StudentEnrollment({required this.studentId});
+  StudentFinance({required this.studentId});
 
   @override
-  _StudentEnrollmentState createState() => _StudentEnrollmentState(studentId: studentId);
+  _StudentFinanceState createState() => _StudentFinanceState(studentId: studentId);
 }
 
-class _StudentEnrollmentState extends State<StudentEnrollment> {
-  late Future<List<StudentCourse>> courses;
+class _StudentFinanceState extends State<StudentFinance> {
+  late Future<List<Finance>> finances;
   final int studentId;
-  _StudentEnrollmentState({required this.studentId});
+  _StudentFinanceState({required this.studentId});
 
   @override
   void initState() {
     super.initState();
     //futureAlbum = fetchAlbum();
     //futureStudent = fetchStudent();
-    courses = fetchStudentCourse(studentId);
+    finances = fetchStudentFinance(studentId);
   }
 
-  Future<List<StudentCourse>> fetchStudentCourse (int studentId)async {
+  Future<List<Finance>> fetchStudentFinance (int studentId)async {
     final response =
-        await http.get(api.getStudentCourseUri(studentId));
+        await http.get(api.getStudentFinanceUri(studentId));
 
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         final json = jsonDecode(response.body);
         var data = json['data'] as List;
-        List<StudentCourse> courses = data.map((course) => StudentCourse.fromJson(course)).toList(); 
+        List<Finance> courses = data.map((course) => Finance.fromJson(course)).toList(); 
         return courses;
       } else {
         // If the server did not return a 200 OK response,
@@ -68,8 +51,8 @@ class _StudentEnrollmentState extends State<StudentEnrollment> {
   @override
   Widget build(BuildContext context) {
    return Center(
-        child: FutureBuilder<List<StudentCourse>> (
-          future: courses,
+        child: FutureBuilder<List<Finance>> (
+          future: finances,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               //List<Text> view = snapshot.data!.map((course) => Text(course.title)).toList();
@@ -86,7 +69,7 @@ class _StudentEnrollmentState extends State<StudentEnrollment> {
 }
 
 class CourseTable extends StatelessWidget {
-  final List<StudentCourse> courses;
+  final List<Finance> courses;
   
   CourseTable({required this.courses});
 
@@ -101,16 +84,15 @@ class CourseTable extends StatelessWidget {
         ),
     );
   }
-  TableRow createRow(StudentCourse course) {
+  TableRow createRow(Finance course) {
     final cellStyle = TextStyle(color: Colors.white, fontSize: 30);
 
     return TableRow(
        //mainAxisAlignment: MainAxisAlignment.center,
        children: [
         createPaddingText(course.id.toString(), cellStyle),
-        createPaddingText(course.title, cellStyle),
-        createPaddingText(course.credits.toString(), cellStyle),
-        createPaddingText(course.status, cellStyle)
+        createPaddingText(course.eligibility, cellStyle),
+        createPaddingText(course.balance.toString(), cellStyle),
         ],
       );
   }
@@ -128,10 +110,8 @@ class CourseTable extends StatelessWidget {
             
             style: cellStyle,
         ), 
-        Text("Title", textAlign: alignCenter, style: cellStyle),
-        Text("Credits", textAlign: alignCenter, style: cellStyle),
-        Text("Status", textAlign: alignCenter, style: cellStyle),
-        
+        Text("Eligibility", textAlign: alignCenter, style: cellStyle),
+        Text("Balance", textAlign: alignCenter, style: cellStyle),       
         ],
       );
   }

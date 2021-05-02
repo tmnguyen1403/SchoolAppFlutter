@@ -1,9 +1,11 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:schoolapp/view/student/studentfinance.dart';
 import '../../Model/student.dart';
 import '../rowinfo.dart';
 import 'studentenrollment.dart';
+import 'studentfinance.dart';
 
 class StudentView extends StatelessWidget {
   final Student student;
@@ -66,6 +68,7 @@ class _StudentNavigationState extends State<StudentNavigation> {
     items = <Widget> [
       StudentInfo(student: student,),
       StudentEnrollment(studentId: student.id,),
+      StudentFinance(studentId: student.id,)
     ];
   }
 
@@ -89,6 +92,10 @@ class _StudentNavigationState extends State<StudentNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: 'Course Enrolled'
+          ),
+           BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Finance'
           ),
         ],
         currentIndex: _selectedIndex,
