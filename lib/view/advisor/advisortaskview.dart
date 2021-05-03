@@ -1,63 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:schoolapp/model/advisortask.dart';
 
-import '../../model/finance.dart';
+
 import '../../api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
 
-class StudentFinance extends StatefulWidget {
+class AdvisorTaskView extends StatefulWidget {
   //MyApp({required Key key}) : super(key: key);
-  final int studentId;
-  StudentFinance({required this.studentId});
+  final int advisorId;
+  AdvisorTaskView({required this.advisorId});
 
   @override
-  _StudentFinanceState createState() => _StudentFinanceState(studentId: studentId);
+  _AdvisorTaskViewState createState() => _AdvisorTaskViewState(advisorId: advisorId);
 }
 
-class _StudentFinanceState extends State<StudentFinance> {
-  late Future<List<Finance>> finances;
-  final int studentId;
-  _StudentFinanceState({required this.studentId});
+class _AdvisorTaskViewState extends State<AdvisorTaskView> {
+  late Future<List<AdvisorTask>> tasks;
+  final int advisorId;
+  _AdvisorTaskViewState({required this.advisorId});
 
   @override
   void initState() {
     super.initState();
-    //futureAlbum = fetchAlbum();
-    //futureStudent = fetchStudent();
-    finances = fetchStudentFinance(studentId);
+    tasks = fetchAdvisorTasks(advisorId);
   }
 
-  Future<List<Finance>> fetchStudentFinance (int studentId)async {
+  Future<List<AdvisorTask>> fetchAdvisorTasks (int advisorId)async {
     final response =
-        await http.get(api.getStudentFinanceUri(studentId));
+        await http.get(api.getAdvisorTasksUri(advisorId));
 
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         final json = jsonDecode(response.body);
         var data = json['data'] as List;
-        List<Finance> courses = data.map((course) => Finance.fromJson(course)).toList(); 
-        return courses;
+        List<AdvisorTask> tasks = data.map((task) => AdvisorTask.fromJson(task)).toList(); 
+        return tasks;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         print(response.body);
-        throw Exception('Failed to load student\' courses');
+        throw Exception('Failed to load advisor\'s tasks');
       }
   }
 
   @override
   Widget build(BuildContext context) {
    return Center(
-        child: FutureBuilder<List<Finance>> (
-          future: finances,
+        child: FutureBuilder<List<AdvisorTask>> (
+          future: tasks,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              //List<Text> view = snapshot.data!.map((course) => Text(course.title)).toList();
+              //List<Text> view = snapshot.data!.map((tasks) => Text(tasks.title)).toList();
 
-              return CourseTable(courses: snapshot.data! );
+              return TaskTable(tasks: snapshot.data! );
             } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
             }
@@ -68,10 +67,10 @@ class _StudentFinanceState extends State<StudentFinance> {
   }
 }
 
-class CourseTable extends StatelessWidget {
-  final List<Finance> courses;
+class TaskTable extends StatelessWidget {
+  final List<AdvisorTask> tasks;
   
-  CourseTable({required this.courses});
+  TaskTable({required this.tasks});
 
   Padding createPaddingText(String content, TextStyle cellStyle) {
     final alignCenter = TextAlign.center;
@@ -84,15 +83,16 @@ class CourseTable extends StatelessWidget {
         ),
     );
   }
-  TableRow createRow(Finance course) {
+
+  TableRow createRow(AdvisorTask task) {
     final cellStyle = TextStyle(color: Colors.white, fontSize: 30);
 
     return TableRow(
        //mainAxisAlignment: MainAxisAlignment.center,
        children: [
-        createPaddingText(course.id.toString(), cellStyle),
-        createPaddingText(course.eligibility, cellStyle),
-        createPaddingText(course.balance.toString(), cellStyle),
+        createPaddingText(task.studentId.toString(), cellStyle),
+        createPaddingText(task.description, cellStyle),
+        createPaddingText(task.deadline, cellStyle)
         ],
       );
   }
@@ -105,20 +105,20 @@ class CourseTable extends StatelessWidget {
        
        children: [
         Text(
-            "ID",
+            "Student ID",
             textAlign: alignCenter,
             
             style: cellStyle,
         ), 
-        Text("Eligibility", textAlign: alignCenter, style: cellStyle),
-        Text("Balance", textAlign: alignCenter, style: cellStyle),       
+        Text("Description", textAlign: alignCenter, style: cellStyle),
+        Text("Deadline", textAlign: alignCenter, style: cellStyle),
         ],
       );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<TableRow> rows =  courses.map((course) => createRow(course)).toList();
+    List<TableRow> rows =  tasks.map((task) => createRow(task)).toList();
     rows.insert(0, createHeader());
     return Table(
       border: TableBorder.all(),

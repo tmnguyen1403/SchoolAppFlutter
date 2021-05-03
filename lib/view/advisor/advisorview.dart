@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:schoolapp/view/advisor/advisortaskview.dart';
 
 //TabViews
 
 import 'advisorinfo.dart';
 import 'advisorappointmentview.dart';
+import 'advisortaskview.dart';
 
 //Model
 import '../../model/advisor.dart';
@@ -62,6 +64,7 @@ class _AdvisorNavigationState extends State<AdvisorNavigation> {
     items = <Widget> [
       AdvisorInfo(advisor: advisor,),
       AdvisorAppoinmentView(advisorId: advisor.id,),
+       AdvisorTaskView(advisorId: advisor.id,),
     ];
   }
 
@@ -85,6 +88,10 @@ class _AdvisorNavigationState extends State<AdvisorNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: 'Appointments'
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment),
+            label: 'Tasks'
           ),
         ],
         currentIndex: _selectedIndex,

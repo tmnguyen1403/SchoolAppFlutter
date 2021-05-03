@@ -9,6 +9,7 @@ const String INSTRUCTOR_COURSE = INSTRUCTOR + "/:id/courses";
 
 const String ADVISOR = "/advisor";
 const String ADVISOR_APPOINTMENT = ADVISOR + "/:id/appointments";
+const String ADVISOR_TASK = ADVISOR + "/:id/tasks";
 
 dynamic getAllStudentsUri() {
   return Uri.http(HOST, STUDENT);
@@ -42,6 +43,12 @@ dynamic getInstructorCoursesUri(int id) {
 
 dynamic getAdvisorAppoinmentsUri(int id) {
   String path = ADVISOR_APPOINTMENT.replaceFirst(RegExp(":id"), id.toString());
+  print(path);
+  return Uri.http(HOST, path);
+}
+
+dynamic getAdvisorTasksUri(int id) {
+  String path = ADVISOR_TASK.replaceFirst(RegExp(":id"), id.toString());
   print(path);
   return Uri.http(HOST, path);
 }
