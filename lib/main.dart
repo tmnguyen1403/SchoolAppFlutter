@@ -5,6 +5,8 @@ import 'package:schoolapp/view/rowspacing.dart';
 
 import 'view/student/studentrole.dart';
 import 'view/instructor/instructorrole.dart';
+import 'view/advisor/advisorrole.dart';
+
 //Client - send request to server 
 //Server - receive and process the request
 
@@ -26,6 +28,7 @@ class _UIState extends State<UI> {
         '/admin': (context) => Admin(),
         '/student': (context) => StudentRole(),
         '/instructor': (context) => InstructorRole(),
+        '/advisor': (context) => AdvisorRole(),
       },
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -75,11 +78,27 @@ class Role extends StatelessWidget {
       Divider(),
       Dean(),
       Divider(),
+      AdvisorButton(),
+      Divider(),
       InstructorButton(),
       Divider(),
       StudentButton(),
       Spacer(flex: 2),
     ],));
+  }
+}
+
+class AdvisorButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ElevatedButton contentButton = ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/advisor');
+        print("I pressed instructor");
+      }, 
+      child: Text('Advisor'),
+    );
+    return RowSpacing(contentWidget: contentButton);
   }
 }
 
