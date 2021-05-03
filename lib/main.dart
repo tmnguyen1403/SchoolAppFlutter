@@ -1,15 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:schoolapp/view/rowspacing.dart';
 
 import 'view/student/studentrole.dart';
 import 'view/instructor/instructorrole.dart';
 import 'view/advisor/advisorrole.dart';
-
-//Client - send request to server 
-//Server - receive and process the request
-
+import 'view/studentcenter/studentcenterrole.dart';
 
 void main() => runApp(UI());
 
@@ -29,6 +24,7 @@ class _UIState extends State<UI> {
         '/student': (context) => StudentRole(),
         '/instructor': (context) => InstructorRole(),
         '/advisor': (context) => AdvisorRole(),
+        '/studentcenter': (context) => StudentCenterRole(),
       },
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -78,6 +74,8 @@ class Role extends StatelessWidget {
       Divider(),
       Dean(),
       Divider(),
+      StudentCenterButton(),
+      Divider(),
       AdvisorButton(),
       Divider(),
       InstructorButton(),
@@ -88,13 +86,27 @@ class Role extends StatelessWidget {
   }
 }
 
+class StudentCenterButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ElevatedButton contentButton = ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/studentcenter');
+        print("I pressed studentcenter");
+      }, 
+      child: Text('Student Center'),
+    );
+    return RowSpacing(contentWidget: contentButton);
+  }
+}
+
 class AdvisorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElevatedButton contentButton = ElevatedButton(
       onPressed: () {
         Navigator.pushNamed(context, '/advisor');
-        print("I pressed instructor");
+        print("I pressed advisor");
       }, 
       child: Text('Advisor'),
     );
